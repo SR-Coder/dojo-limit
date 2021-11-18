@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Display Current Stack",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "Filter the content of the Learn platform to remove stacks un-related to the current stack you are teaching or using.",
     "options_page": "options.html",
     "background":{
@@ -25,7 +25,7 @@
       },
     "content_scripts": [
         {
-            "matches": ["https://login.codingdojo.com/*"],
+            "matches": ["https://login.codingdojo.com/dashboard"],
             "js": ["content.js"],
             "run_at":"document_end"
         }

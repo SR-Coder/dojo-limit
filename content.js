@@ -1,33 +1,43 @@
 
-setTimeout(() => {
-
-    getElements()
-
-}, 500);
-
-function getElements() {   
-    let trackTitles = document.getElementsByClassName('track_title');
-    let all_tracks =[...trackTitles];
-    let string_tracks = [];
-
-    all_tracks.forEach(element => {
-        let title = element.innerHTML.toString()
-        let parent = element.parentElement
-        let grandparent = parent.parentElement
-        let greatGP = grandparent.parentElement
-        
-        string_tracks.push([title,grandparent.getAttribute('data-track-id') ])
-
-        chrome.storage.sync.get('StacksToKeep', (data)=>{
-            if(data.StacksToKeep.includes(title)){
-            } else {
-                greatGP.removeChild(grandparent)
+let observer = new MutationObserver(mutations => {
+    for(let mutation of mutations){
+        for(let addedNode of mutation.addedNodes){
+            if(addedNode.nodeName == 'LI'){
+                thisParrent = addedNode.parentElement;
+                let allLiNodes = addedNode.childNodes[0].childNodes;
+                if(allLiNodes.length>0){
+                    chrome.storage.sync.get('StacksToKeep', (data)=>{
+                        if(data.StacksToKeep.includes(allLiNodes[0].innerHTML)){
+                        } else {
+                            elParent = addedNode.parentNode
+                            elParent.removeChild(addedNode)
+                        }
+                    })
+                }
             }
-        })
-    });
-    chrome.storage.sync.set({string_tracks});
-}
+            if(addedNode.nodeName == "DIV"){
+                if(addedNode.childNodes.length > 0){
+                    let aNChild = addedNode.querySelectorAll('li')
+                    chrome.storage.sync.get('StacksToKeep', (data)=>{
+                        aNChild.forEach(element => {
+                            if(element.childNodes.length>1){
+                                let minorStack = element.childNodes[0].childNodes[0].innerHTML;
+                                if(data.StacksToKeep.includes(minorStack)){
+                                } else {
+                                    elParent = element.parentNode
+                                    elParent.removeChild(element)
+                                }
+                            }
+                        });
+                    })
+                }
+            }
+            
+        }
+    }
+})
 
+observer.observe(document, {childList: true, subtree: true});
 
 
 
