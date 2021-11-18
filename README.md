@@ -1,4 +1,4 @@
-# Welcom the to DOJO Limit Extension Page
+# Welcome the to DOJO Limit Extension Page
 ---
 
 ## Instructions
