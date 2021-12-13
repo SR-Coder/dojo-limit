@@ -1,4 +1,4 @@
-
+console.log('running everyt time background');
 let stackList = [];
 let StacksToKeep = [
     'PROGRAMMING BASICS - 2021 ',
@@ -6,7 +6,7 @@ let StacksToKeep = [
     'PYTHON v21.1 ',
     'C# / .NET Core ',
     'MERN ',
-    'JAVA '
+    'Java '
 ]
 
 chrome.runtime.onInstalled.addListener(()=>{

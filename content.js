@@ -1,4 +1,4 @@
-
+let stackList = []
 let observer = new MutationObserver(mutations => {
     for(let mutation of mutations){
         for(let addedNode of mutation.addedNodes){
@@ -9,8 +9,10 @@ let observer = new MutationObserver(mutations => {
                     chrome.storage.sync.get('StacksToKeep', (data)=>{
                         if(data.StacksToKeep.includes(allLiNodes[0].innerHTML)){
                         } else {
+                            stackList.push(allLiNodes[0].innerHTML)
                             elParent = addedNode.parentNode
                             elParent.removeChild(addedNode)
+                            // chrome.storage.sync.set({stackList})
                         }
                     })
                 }
@@ -24,8 +26,10 @@ let observer = new MutationObserver(mutations => {
                                 let minorStack = element.childNodes[0].childNodes[0].innerHTML;
                                 if(data.StacksToKeep.includes(minorStack)){
                                 } else {
+                                    stackList.push(minorStack)
                                     elParent = element.parentNode
                                     elParent.removeChild(element)
+                                    // chrome.storage.sync.set({stackList})
                                 }
                             }
                         });
@@ -35,6 +39,7 @@ let observer = new MutationObserver(mutations => {
             
         }
     }
+    chrome.storage.sync.set({stackList})
 })
 
 observer.observe(document, {childList: true, subtree: true});
