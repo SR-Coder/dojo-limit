@@ -5,7 +5,8 @@ let observer = new MutationObserver((mutations) => {
     let StacksToKeep = data.StacksToKeep;
     for (let mutation of mutations) {
       if (mutation.addedNodes.length > 0) {
-        for (let node of mutation.addedNodes) {
+        for (const node of mutation.addedNodes) {
+          if (node.className == "modal-content") console.log(true);
           // elements with a nodeName beginning with LI are major tracks
           if (node.nodeName == "LI") {
             // grab all the LI nodes
@@ -24,6 +25,8 @@ let observer = new MutationObserver((mutations) => {
 
           // elements with a nodeName beginning with DIV are minor tracks
           if (node.nodeName == "DIV") {
+            console.log(node.className)
+            if (node.className.includes("modal")) continue;
             // grab all the LI nodes
             let aNChild = node.querySelectorAll("li");
 
