@@ -25,8 +25,15 @@ let observer = new MutationObserver((mutations) => {
 
           // elements with a nodeName beginning with DIV are minor tracks
           if (node.nodeName == "DIV") {
-            console.log(node.className)
-            if (node.className.includes("modal")) continue;
+            console.log(node.className);
+
+            // this line is very important. when selecting a stack from the list, a pop-up box appears to select a track
+            // the pop-up has unique class names, so this checks the class names and prevents these specific divs from being cleared
+            if (
+              node.className.includes("modal show") ||
+              node.className.includes("modal-backdrop show")
+            )
+              continue;
             // grab all the LI nodes
             let aNChild = node.querySelectorAll("li");
 
